@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:zoomerm_client/login/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,6 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      title: "ZM",
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),{TODO} Make a theme data later
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -23,49 +28,8 @@ class MyApp extends StatelessWidget {
         Locale('ru', ''),
         Locale('kr', ''),
       ],
-      home: TempWidget(),
-    );
-  }
-}
 
-class TempWidget extends StatefulWidget {
-  const TempWidget({super.key});
-
-  @override
-  State<TempWidget> createState() => _TempWidgetState();
-}
-
-class _TempWidgetState extends State<TempWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text("1"),
-                Text("2"),
-                Text("3"),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text("1"),
-                Text("2"),
-                Text("3"),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text("1"),
-                Text("2"),
-                Text("3"),
-              ],
-            )
-          ],
-        ),
-      ),
+      home: LoginEnter(),
     );
   }
 }
