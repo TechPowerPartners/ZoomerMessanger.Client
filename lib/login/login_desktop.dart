@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zoomerm_client/homepage/homepage_state.dart';
 
 class LoginDesktop extends StatefulWidget {
   const LoginDesktop({super.key});
@@ -45,7 +46,12 @@ class __LoginDesktopState extends State<LoginDesktop> {
                     //...
                     ),
                 const SizedBox(height: 30),
-                TextButton(onPressed: () {}, child: Text("Login")),
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    },
+                    child: Text("Login")),
                 const SizedBox(height: 15),
                 TextButton(onPressed: () {}, child: Text("Registration"))
               ],
