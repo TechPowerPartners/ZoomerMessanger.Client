@@ -17,6 +17,7 @@ class __LoginDesktopState extends State<LoginDesktop> {
             child: Image.asset(
           'assets/zmlogo.jpg',
           fit: BoxFit.cover,
+          height: 1000,
         )),
         Expanded(
           child: Container(
