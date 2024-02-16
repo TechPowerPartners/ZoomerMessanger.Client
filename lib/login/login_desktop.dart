@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:zoomerm_client/blocs/login_bloc.dart/service.dart';
+import 'package:zoomerm_client/global/functions_g.dart';
 import 'package:zoomerm_client/homepage/homepage_state.dart';
 
 class LoginDesktop extends StatefulWidget {
@@ -9,9 +12,24 @@ class LoginDesktop extends StatefulWidget {
 }
 
 class __LoginDesktopState extends State<LoginDesktop> {
-  bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _mobile_login_controller = TextEditingController();
+    final TextEditingController _mobile_password_controller = TextEditingController();
+    //Controllers for Login and initState
+    @override
+    void initState() {
+      super.initState();
+    }
+
+    @override
+    void dispose() {
+      _mobile_login_controller.dispose();
+      _mobile_password_controller.dispose();
+      super.dispose();
+    }
+
+
     return Row(
       children: [
         Expanded(
@@ -28,18 +46,15 @@ class __LoginDesktopState extends State<LoginDesktop> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text('Hi'),
                 const SizedBox(height: 8),
-                Text(
-                  'Login',
-                ),
+                const Text('Login',),
                 const SizedBox(height: 35),
                 TextField(
-                    //...
+                    controller: _mobile_login_controller,
                     ),
                 const SizedBox(height: 20),
                 TextField(
-                    //...
+                    controller: _mobile_password_controller,
                     ),
                 const SizedBox(height: 25),
                 Row(
@@ -47,13 +62,25 @@ class __LoginDesktopState extends State<LoginDesktop> {
                     ),
                 const SizedBox(height: 30),
                 TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                    onPressed: () async {
+                      var account = await LoginService()
+                      .logInTemp(_mobile_login_controller.text, _mobile_password_controller.text);
+                      if(account != null) {
+                        print(context);
+                        refreshLogin(context);
+                        context.go('/');
+                      }
+                      else {
+                        AlertDialog(
+                          content: Text("Login Failed"),
+                        );
+                      }
                     },
-                    child: Text("Login")),
+                    child: const Text("Login")),
                 const SizedBox(height: 15),
-                TextButton(onPressed: () {}, child: Text("Registration"))
+                TextButton(onPressed: () {
+
+                }, child: const Text("Registration"))
               ],
             ),
           ),
