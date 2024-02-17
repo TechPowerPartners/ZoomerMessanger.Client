@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:zoomerm_client/blocs/bloc_service.dart';
 import 'package:zoomerm_client/global/global.dart';
 import 'package:zoomerm_client/helpers/login_helper.dart';
-import 'package:zoomerm_client/models/LoginModel.dart';
+import 'package:zoomerm_client/models/login_model.dart';
 
 import '../../helpers/http_helper.dart';
 
@@ -21,6 +21,7 @@ class LoginService extends BlocService<LoginModel> {
 
   Future<LoginModel?> getCurrentLogin() async {
     var rs = await LocalHelper.getAccountFromLocal();
+    print(rs.toString());
     currentLogin = rs;
     return currentLogin;
   }
@@ -40,16 +41,22 @@ class LoginService extends BlocService<LoginModel> {
     return null;
   }
 
-  Future<LoginModel?> logInTemp(String username, String password) async {
+  Future<LoginModel?> logInTemp(String username, String password, String link) async {
     Map<String, String> accountInput = {"username": username , "password": password};
-    var rs = await HttpHelper.postTempLogin(LOGIN_ENDPOINT, accountInput);
+    var rs = await HttpHelper.postTempLogin(DOMAIN + link, accountInput);
+    print(DOMAIN + link);
     if (rs.statusCode == 200) {
+      print(DOMAIN + link);
       var jsonObject = jsonDecode(rs.body);
-      var account = LoginModel(jsonObject);
+      print(rs.body);
+      var account = LoginModel(jsonEncode(rs.body));
       currentLogin = account;
       LocalHelper.saveAccountToLocal(account);
 
       return account;
+    }
+    else {
+      print(rs.statusCode);
     }
     return null;
   }

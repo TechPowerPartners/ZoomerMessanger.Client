@@ -3,34 +3,27 @@ import 'package:zoomerm_client/blocs/login_bloc.dart/event.dart';
 import 'package:zoomerm_client/blocs/login_bloc.dart/service.dart';
 import 'package:zoomerm_client/blocs/login_bloc.dart/state.dart';
 
-class LoginBloc extends Bloc<LoginBloc, LoginState> {
-  LoginBloc() : super(LoginInit());
-
-  
-  @override
-  Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    if (event is LoginNow) {
-      yield* mapLoginNowToState(event);
-    } else if (event is GetCurrentLogin) {
-      yield* mapGetCurrentLoginToState(event);
-    }
+class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  LoginBloc() : super(LoginInit()) {
+    on<LoginNow>(_onLoginNow);
+    on<GetCurrentLogin>(_onGetCurrentLogin);
   }
 
-  Stream<LoginState> mapLoginNowToState(LoginNow event) async* {
+  Future<void> _onLoginNow(LoginNow event, Emitter<LoginState> emit) async {
     var rs = await LoginService().logIn(event.username, event.password);
     if (rs != null) {
-      yield LoginSuccessfully(rs);
+      emit(LoginSuccessfully(rs));
     } else {
-      yield LoginFailed();
+      emit(LoginFailed());
     }
   }
 
-  Stream<LoginState> mapGetCurrentLoginToState(GetCurrentLogin event) async* {
+  Future<void> _onGetCurrentLogin(GetCurrentLogin event, Emitter<LoginState> emit) async {
     var rs = await LoginService().getCurrentLogin();
     if (rs != null) {
-      yield LoginSuccessfully(rs);
+      emit(LoginSuccessfully(rs));
     } else {
-      yield LoginFailed();
+      emit(LoginFailed());
     }
   }
 }

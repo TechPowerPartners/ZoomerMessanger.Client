@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:zoomerm_client/models/LoginModel.dart';
+import 'package:zoomerm_client/models/login_model.dart';
 
 class LoginState extends Equatable {
   @override

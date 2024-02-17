@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
     
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LoginBloc>(create: (context) => LoginBloc()..add(GetCurrentLogin() as LoginBloc)),
+        BlocProvider<LoginBloc>(create: (context) => LoginBloc()..add(GetCurrentLogin()))
       ],
       child: MaterialApp.router(
         routerConfig: _router,

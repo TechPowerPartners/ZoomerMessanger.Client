@@ -64,16 +64,15 @@ class __LoginDesktopState extends State<LoginDesktop> {
                 TextButton(
                     onPressed: () async {
                       var account = await LoginService()
-                      .logInTemp(_mobile_login_controller.text, _mobile_password_controller.text);
+                      .logInTemp(_mobile_login_controller.text, _mobile_password_controller.text, 'api/accounts/sign-in');
                       if(account != null) {
                         print(context);
+                        print("success");
                         refreshLogin(context);
-                        context.go('/');
+                        context.go('/home');
                       }
                       else {
-                        AlertDialog(
-                          content: Text("Login Failed"),
-                        );
+                        print("something went wrong");
                       }
                     },
                     child: const Text("Login")),
