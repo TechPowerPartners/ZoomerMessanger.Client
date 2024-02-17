@@ -77,7 +77,19 @@ class __LoginDesktopState extends State<LoginDesktop> {
                     },
                     child: const Text("Login")),
                 const SizedBox(height: 15),
-                TextButton(onPressed: () {
+                TextButton(onPressed: () async {
+                    var account =  await LoginService()
+                    .registrationTemp(_mobile_login_controller.text, _mobile_password_controller.text);
+                if(account == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: 
+                  Text("Successfully Registered")));
+                }
+                else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: 
+                  Text("Wrong")));
+                }
 
                 }, child: const Text("Registration"))
               ],

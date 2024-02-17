@@ -61,6 +61,12 @@ class LoginService extends BlocService<LoginModel> {
     return null;
   }
 
+  Future<bool> registrationTemp(String user, String password) async {
+    Map<String, String> registrationInput = {"username": user, "password": password};
+    var rs = await HttpHelper.postTempLogin(DOMAIN + "api/accounts/sign-up", registrationInput);
+    return rs.statusCode == 200 ? true : false;
+  }
+
   Future logOut() async {
     currentLogin = null;
     return await LocalHelper.deleteAccountFromLocal();
