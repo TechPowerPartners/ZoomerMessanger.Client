@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 //const DOMAIN = 'http://localhost:5135'; For developing
-const DOMAIN = 'http://localhost:5135/';
+const DOMAIN = 'https://localhost:7065/';
 const LOGIN_ENDPOINT = DOMAIN + 'login';
 class HttpHelper {
   static Future<http.Response> post(String url, Map<String, dynamic> body,
@@ -16,7 +16,9 @@ class HttpHelper {
     }));
   }
   static Future<http.Response> postTempLogin(String url, Map<String, dynamic> body) async {
-    return await http.post(Uri.parse(url), body: jsonEncode(body));
+    return await http.post(Uri.parse(url), body: jsonEncode(body), headers: {
+      HttpHeaders.contentTypeHeader: 'application/json'
+    });
   }
   static Future<http.Response> put(String url, Map<String, dynamic> body,
       {String? bearerToken}) async {

@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zoomerm_client/models/LoginModel.dart';
+import 'package:zoomerm_client/models/login_model.dart';
 
 class LocalHelper {
   static saveAccountToLocal(LoginModel accountModel) async {
