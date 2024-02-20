@@ -19,9 +19,10 @@ class LocalHelper {
   static Future<LoginModel?> getAccountFromLocal() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var account = pref.getString('login');
+    print("printing account");
+    print(account.toString());
     if (account != null) {
       return LoginModel.fromJson(jsonDecode(account));
     }
-    return null;
   }
 }

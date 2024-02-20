@@ -36,7 +36,7 @@ class HttpHelper {
 
   static Future<http.Response> get(String url, {String? bearerToken}) async {
     return await http.get(Uri.parse(url),
-        headers: {HttpHeaders.authorizationHeader: '$bearerToken'});
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $bearerToken'});
   }
 
   

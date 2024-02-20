@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:zoomerm_client/homepage/service.dart';
 import 'package:zoomerm_client/models/chat_model.dart';
 
@@ -10,42 +11,62 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late Future<ChatModel?> chats;
+  List<ChatModel> chats = [];
 
   @override
   void initState() {
-    chats = HomePageService().getAllChat();
+    // chats = HomePageService().getAllChat();
+    
     super.initState();
   }
 
+  Future getAllChats() async {
+    List<ChatModel>? tempChats = await HomePageService().getAllChat();
+    if(tempChats == null) {
+      return 0;
+    }
+    else {
+    for(var tempChat in tempChats!){
+      chats.add(tempChat);
+    }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ChatModel?>(
-  future: chats,
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    } else if (snapshot.hasError) {
-      return Center(
-        child: Text(snapshot.error.toString()),
-      );
-    } else {
-      // Assuming snapshot.data is a List of chat items
-      var chatList = snapshot.data;
-      print(chatList);
-      return ListView.separated(
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(index.toString()),
+    return FutureBuilder(
+      future: getAllChats(), 
+      builder: (context, snapshot){
+        if(snapshot.connectionState == ConnectionState.none && chats.hashCode == null){
+          return Center(
+            child: CircularProgressIndicator(),
           );
-        },
-        separatorBuilder: (context, int) => Divider(),
-        itemCount: 3, // Use the length of the chat list
-      );
-    }
-  },
-);
+        }
+        return ListView.separated
+        (itemBuilder: ((context, index) {
+          return ListTile(
+            onTap: () {
+              context.go('/mychats');
+            },
+            title: Text(chats[index].interlocutor!.userName.toString()),
+            subtitle: Text('TYT SOOBSHENIYA BUDUT...'),
+            leading: Container(
+              height: 50,
+              width: 50,
+              color: Colors.black
+            ),
+            trailing: Icon(Icons.menu),
+          );
+        }),
+         
+        separatorBuilder: (context, index) {
+          return const Divider();
+        }, 
+        itemCount: chats.length
+        );
+
+
+      });
   }
 }

@@ -45,6 +45,7 @@ dependencies:
   flutter_bloc: ^8.1.4
   bloc_provider: ^1.0.0
   equatable: ^2.0.5
+  adaptive_theme: ^3.6.0
 
 dev_dependencies:
   flutter_test:
