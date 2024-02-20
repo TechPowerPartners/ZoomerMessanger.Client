@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zoomerm_client/blocs/login_bloc.dart/service.dart';
+import 'package:zoomerm_client/global/global.dart';
 import 'package:zoomerm_client/homepage/chat_page.dart';
 import 'package:zoomerm_client/homepage/forum_page.dart';
 
@@ -13,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentPageIndex = 0;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,19 +28,53 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            DrawerHeader(child: Icon(Icons.picture_in_picture_rounded)),
+            // ignore: prefer_const_constructors
+            UserAccountsDrawerHeader(
+              accountName: Text("user"), 
+              accountEmail: Text("+"),
+              decoration: BoxDecoration(
+                image: DecorationImage(image: 
+                AssetImage('assets/zmlogo.jpg'),
+                fit: BoxFit.fill),
+              ),
+              )
+            ,
             ListTile(
-              title: Text("Temp"),
+              leading: const Icon(Icons.person),
+              title: const Text(' My Profile '),
+              onTap: () {
+
+              },
             ),
             ListTile(
-              title: Text("Temp"),
+              leading: const Icon(Icons.group),
+              title: const Text(' New Group '),
+              onTap: () {
+
+              },
             ),
             ListTile(
-              title: Text("Temp"),
+              leading: const Icon(Icons.contacts_sharp),
+              title: const Text(' Contacts '),
+              onTap: () {
+
+              },
             ),
             ListTile(
-              title: Text("Temp"),
+              leading: const Icon(Icons.message),
+              title: const Text(' Saved Messages '),
+              onTap: () {
+
+              },
             ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text(' Settings '),
+              onTap: () {
+
+              },
+            ),
+            
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,

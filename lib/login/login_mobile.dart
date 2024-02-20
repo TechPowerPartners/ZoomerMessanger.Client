@@ -66,10 +66,10 @@ class _LoginMobileState extends State<LoginMobile> {
                     const SizedBox(height: 30),
                     TextButton(
                         onPressed: () async {
-                          var account = await LoginService().logInTemp(
+                          var account = await LoginService().logIn(
                               _mobile_login_controller.text,
                               _mobile_password_controller.text,
-                              'api/accounts/sign-in');
+                              );
                           if (account != null) {
                             refreshLogin(context);
                             context.go('/home');

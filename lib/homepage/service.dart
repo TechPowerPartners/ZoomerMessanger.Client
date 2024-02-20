@@ -12,27 +12,28 @@ import '../helpers/login_helper.dart';
 class HomePageService extends BlocService<ChatModel> {
   @override
   Future<ChatModel> get(int id) {
-    // TODO: implement get
     throw UnimplementedError();
   }
 
   @override
   Future<List<ChatModel>> getAll({int from = 0, int? limit}) {
-    // TODO: implement getAll
+    
     throw UnimplementedError();
   }
 
-  Future<ChatModel?> getAllChat({String getAll = "api/chats"}) async {
+  Future<List<ChatModel>?> getAllChat({String getAll = "api/chats"}) async {
     
     var rs = await HttpHelper.get(DOMAIN + getAll, bearerToken: currentLogin?.token);
     print("currentTOken is ${currentLogin?.token}");
     if (rs.statusCode == 200) {
-      var jsonObject = jsonDecode(rs.body);
+      final jsonResponse = jsonDecode(rs.body);
+      final List<dynamic> dataList = jsonResponse['data'];
+      List<ChatModel> chatList = [];
+      for (var data in dataList) {
+        chatList.add(ChatModel.fromJson(data));
+      }
       print(rs.body);
-      
-      var chatInfo = ChatModel(jsonEncode(rs.body));
-      print(rs.body);
-      return chatInfo;
+      return chatList;
     }
     
     return null;

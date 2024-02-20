@@ -44,7 +44,6 @@ class LoginService extends BlocService<LoginModel> {
     Map<String, String> accountInput = {"username": username , "password": password};
     var rs = await HttpHelper.postTempLogin(DOMAIN + link, accountInput);
     if (rs.statusCode == 200) {
-      var jsonObject = jsonDecode(rs.body);
       var account = LoginModel(jsonEncode(rs.body));
       currentLogin = account;
       LocalHelper.saveAccountToLocal(account);
