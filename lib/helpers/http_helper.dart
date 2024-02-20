@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zoomerm_client/global/global.dart';
+import 'package:zoomerm_client/helpers/login_helper.dart';
+import 'package:zoomerm_client/models/login_model.dart';
 
 //const DOMAIN = 'http://localhost:5135'; For developing
 const DOMAIN = 'https://localhost:7065/';
@@ -31,9 +35,8 @@ class HttpHelper {
   }
 
   static Future<http.Response> get(String url, {String? bearerToken}) async {
-    
     return await http.get(Uri.parse(url),
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $bearerToken'});
+        headers: {HttpHeaders.authorizationHeader: '$bearerToken'});
   }
 
   

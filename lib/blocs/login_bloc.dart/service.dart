@@ -21,21 +21,20 @@ class LoginService extends BlocService<LoginModel> {
 
   Future<LoginModel?> getCurrentLogin() async {
     var rs = await LocalHelper.getAccountFromLocal();
-    print(rs.toString());
+    
     currentLogin = rs;
     return currentLogin;
   }
 
   Future<LoginModel?> logIn(String username, String password) async {
     Map<String, String> accountInput = {"username": username, "password": password};
-    var rs = await HttpHelper.post(LOGIN_ENDPOINT, accountInput);
-    print(rs.statusCode);
+    var rs = await HttpHelper.post(DOMAIN + "api/accounts/sign-in", accountInput);
+   
     if (rs.statusCode == 200) {
       var jsonObject = jsonDecode(rs.body);
       var account = LoginModel.fromJson(jsonObject);
       currentLogin = account;
       LocalHelper.saveAccountToLocal(account);
-
       return account;
     }
     return null;
@@ -44,19 +43,12 @@ class LoginService extends BlocService<LoginModel> {
   Future<LoginModel?> logInTemp(String username, String password, String link) async {
     Map<String, String> accountInput = {"username": username , "password": password};
     var rs = await HttpHelper.postTempLogin(DOMAIN + link, accountInput);
-    print(DOMAIN + link);
     if (rs.statusCode == 200) {
-      print(DOMAIN + link);
       var jsonObject = jsonDecode(rs.body);
-      print(rs.body);
       var account = LoginModel(jsonEncode(rs.body));
       currentLogin = account;
       LocalHelper.saveAccountToLocal(account);
-
       return account;
-    }
-    else {
-      print(rs.statusCode);
     }
     return null;
   }
