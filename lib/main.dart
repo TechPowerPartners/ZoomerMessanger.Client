@@ -5,14 +5,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zoomerm_client/blocs/login_bloc.dart/bloc.dart';
 import 'package:zoomerm_client/blocs/login_bloc.dart/event.dart';
-import 'package:zoomerm_client/homepage/homepage_state.dart';
+import 'package:zoomerm_client/homepage/home_page.dart';
 import 'package:zoomerm_client/login/login_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
+
 final GoRouter _router = GoRouter(
+  initialLocation: '/',
+  navigatorKey: _rootNavigatorKey,
   routes: <RouteBase>[
+    
     GoRoute(
       path: '/home',
       builder: (BuildContext context, GoRouterState state) {

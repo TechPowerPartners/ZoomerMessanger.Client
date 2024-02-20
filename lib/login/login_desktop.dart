@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zoomerm_client/blocs/login_bloc.dart/service.dart';
 import 'package:zoomerm_client/global/functions_g.dart';
-import 'package:zoomerm_client/homepage/homepage_state.dart';
+import 'package:zoomerm_client/homepage/home_page.dart';
 
 class LoginDesktop extends StatefulWidget {
   const LoginDesktop({super.key});
@@ -12,24 +12,25 @@ class LoginDesktop extends StatefulWidget {
 }
 
 class __LoginDesktopState extends State<LoginDesktop> {
+  final TextEditingController _login_desktop_controller =
+      TextEditingController();
+  final TextEditingController _password_desktop_controller =
+      TextEditingController();
+  //Controllers for Login and initState
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _login_desktop_controller.dispose();
+    _password_desktop_controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _mobile_login_controller = TextEditingController();
-    final TextEditingController _mobile_password_controller = TextEditingController();
-    //Controllers for Login and initState
-    @override
-    void initState() {
-      super.initState();
-    }
-
-    @override
-    void dispose() {
-      _mobile_login_controller.dispose();
-      _mobile_password_controller.dispose();
-      super.dispose();
-    }
-
-
     return Row(
       children: [
         Expanded(
@@ -47,15 +48,17 @@ class __LoginDesktopState extends State<LoginDesktop> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 8),
-                const Text('Login',),
+                const Text(
+                  'Login',
+                ),
                 const SizedBox(height: 35),
                 TextField(
-                    controller: _mobile_login_controller,
-                    ),
+                  controller: _login_desktop_controller,
+                ),
                 const SizedBox(height: 20),
                 TextField(
-                    controller: _mobile_password_controller,
-                    ),
+                  controller: _password_desktop_controller,
+                ),
                 const SizedBox(height: 25),
                 Row(
                     //...
@@ -63,35 +66,37 @@ class __LoginDesktopState extends State<LoginDesktop> {
                 const SizedBox(height: 30),
                 TextButton(
                     onPressed: () async {
-                      var account = await LoginService()
-                      .logInTemp(_mobile_login_controller.text, _mobile_password_controller.text, 'api/accounts/sign-in');
-                      if(account != null) {
-                        print(context);
-                        print("success");
+                     
+                      var account = await LoginService().logIn(
+                          _login_desktop_controller.text,
+                          _password_desktop_controller.text,
+                          );
+                      if (account != null) {
+                        // ignore: use_build_context_synchronously
                         refreshLogin(context);
+                        // ignore: use_build_context_synchronously
                         context.go('/home');
-                      }
-                      else {
-                        print("something went wrong");
+                        Navigator.pop(context);
+                      } else {
+                        //TODO ADD DIALOG
                       }
                     },
                     child: const Text("Login")),
                 const SizedBox(height: 15),
-                TextButton(onPressed: () async {
-                    var account =  await LoginService()
-                    .registrationTemp(_mobile_login_controller.text, _mobile_password_controller.text);
-                if(account == true) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: 
-                  Text("Successfully Registered")));
-                }
-                else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: 
-                  Text("Wrong")));
-                }
-
-                }, child: const Text("Registration"))
+                TextButton(
+                    onPressed: () async {
+                      var account = await LoginService().registrationTemp(
+                          _login_desktop_controller.text,
+                          _password_desktop_controller.text);
+                      if (account == true) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Successfully Registered")));
+                      } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text("Wrong")));
+                      }
+                    },
+                    child: const Text("Registration"))
               ],
             ),
           ),
