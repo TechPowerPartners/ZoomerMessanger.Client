@@ -52,7 +52,7 @@ class _LoginMobileState extends State<LoginMobile> {
                         height: 20), // Add space between image and text fields
                     Text('Hi'),
                     const SizedBox(height: 8),
-                    Text('Login'),
+                    Text('Login', ),
                     const SizedBox(height: 35),
                     TextFormField(
                       controller: _mobile_login_controller,
