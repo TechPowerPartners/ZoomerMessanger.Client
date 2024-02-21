@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:zoomerm_client/blocs/login_bloc.dart/bloc.dart';
 import 'package:zoomerm_client/blocs/login_bloc.dart/event.dart';
 import 'package:zoomerm_client/chatting/chat_page.dart';
+import 'package:zoomerm_client/global/global.dart';
+import 'package:zoomerm_client/helpers/login_helper.dart';
 import 'package:zoomerm_client/homepage/home_page.dart';
 import 'package:zoomerm_client/login/login_page.dart';
 
@@ -79,8 +81,25 @@ class MyApp extends StatelessWidget {
             Locale('ru', ''),
             Locale('kr', ''),
           ],
+          builder: (context, child) {
+            return FutureBuilder<void>(
+              future: getGlobal(),
+              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return child!;
+                } else {
+                  return CircularProgressIndicator(); // Or some other loading indicator
+                }
+              },
+            );
+          },
         ),
       ),
     );
+  }
+
+  Future<void> getGlobal() async {
+    var login = await LocalHelper.getAccountFromLocal();
+    currentLogin = login;
   }
 }
