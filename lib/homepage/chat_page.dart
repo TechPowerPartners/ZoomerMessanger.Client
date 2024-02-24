@@ -12,7 +12,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   List<ChatModel> chats = [];
-
+  
   @override
   void initState() {
     // chats = HomePageService().getAllChat();
@@ -31,7 +31,7 @@ class _ChatPageState extends State<ChatPage> {
     }
     }
   }
-
+  
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,12 @@ class _ChatPageState extends State<ChatPage> {
         return ListView.separated
         (itemBuilder: ((context, index) {
           return ListTile(
+          
             onTap: () {
-              context.go('/mychats');
+              context.goNamed('mychats', 
+              pathParameters: 
+              {'chatid': chats[index].id.toString(), 'interl': chats[index].interlocutor!.userName.toString()
+              });
             },
             title: Text(chats[index].interlocutor!.userName.toString()),
             subtitle: Text('TYT SOOBSHENIYA BUDUT...'),

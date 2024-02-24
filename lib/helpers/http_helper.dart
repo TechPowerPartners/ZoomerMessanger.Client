@@ -9,6 +9,7 @@ import 'package:zoomerm_client/models/login_model.dart';
 
 //const DOMAIN = 'http://localhost:5135'; For developing
 const DOMAIN = 'https://localhost:7065/';
+const HUB_ENDPOINT = 'https://localhost:7065/hubs/chats/p2p';
 const LOGIN_ENDPOINT = DOMAIN + 'login';
 class HttpHelper {
   static Future<http.Response> post(String url, Map<String, dynamic> body,
