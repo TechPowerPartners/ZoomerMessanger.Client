@@ -20,7 +20,7 @@ class ChattingService extends BlocService<ChattingModel> {
 
   Future<List<Items>> getChat(String uuid) async {
     List<Items> charRes = [];
-    var rs = await HttpHelper.get("${DOMAIN}api/chats/p2p/${uuid}/messages", bearerToken: currentLogin?.token);
+    var rs = await HttpHelper.get("${DOMAIN}api/chats/p2p/${uuid}/messages?pageSize=1000", bearerToken: currentLogin?.token);
     print(await HttpHelper.get("api/chats/p2p/${uuid}/messages", bearerToken: currentLogin?.token));
     if (rs.statusCode == 200) {
       print("For chatting request 202");

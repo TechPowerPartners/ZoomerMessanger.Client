@@ -34,10 +34,11 @@ final GoRouter _router = GoRouter(
         return LoginEnter();
       }),
       GoRoute(
-      path: '/mychats',
-      builder: (BuildContext context, GoRouterState state) {
-        return ChattingPage();
-      }),
+      name: 'mychats',
+      path: '/mychats/:chatid/:interl',
+      builder: (context, state) => ChattingPage(
+        chatid: state.pathParameters['chatid'], interlocutor: state.pathParameters['interl'])
+      ),
       
   ]
   );
