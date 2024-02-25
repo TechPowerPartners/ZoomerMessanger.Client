@@ -8,6 +8,21 @@ class SearchAndAddDialog extends StatefulWidget {
 }
 
 class _SearchAndAddDialogState extends State<SearchAndAddDialog> {
+  final List<String> names = ['ismail', 'Bob', 'Charlie', 'Diana'];
+  List<String> results = [];
+  TextEditingController searchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -17,17 +32,36 @@ class _SearchAndAddDialogState extends State<SearchAndAddDialog> {
       actions: [
         Row(
           children: [
-            TextFormField(
-              
+            SizedBox(
+              width: 200,
+              child: TextFormField(
+                controller: searchController,
+              decoration: InputDecoration(
+                labelText: "put the name or id",
+                border: OutlineInputBorder()
+              ),
             ),
-            ElevatedButton.icon
-            (onPressed: () {}, 
-            icon: Icon(Icons.search), 
-            label: Text("Search user")),
-
+            ),
+            IconButton(onPressed: (){
+              for(var temps in names) {
+                print(searchController.text);
+                if(temps == searchController.text){
+                  print("Added someone");
+                  setState(() {
+                    debugPrint("Added someone");
+                    results.add(temps);
+                  });
+                }
+              }
+            }, 
+            icon: Icon(Icons.search))
+            
           ],
         )
       ],
+      content: Card(
+        child: Text(results.isEmpty ? "No results" : results[0]),
+      )
     );
   }
 }
