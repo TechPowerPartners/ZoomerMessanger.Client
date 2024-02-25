@@ -45,9 +45,9 @@ class _ChattingPageState extends State<ChattingPage> {
   }
 
   Future populateChatting() async {
+    List<Items> tempItems = await ChattingService().getChat(widget.chatid);
     chattingPage =
-        await ChattingService().getChat(widget.chatid);
-    
+        tempItems.reversed.toList();
   }
 
   void _initConnection() async {
@@ -60,48 +60,34 @@ class _ChattingPageState extends State<ChattingPage> {
   try {
     await hubConnection?.start();
     hubConnection?.on('newChatMessage', (messageData) {
-      // Ensure messageData is not null and is a List<Object?>
       if (messageData is List<Object?>) {
-        print("Message data received: $messageData");
-        
-        // Iterate through each element in the list
         for (var element in messageData) {
-          print("ITTERATTING");
-
             String messageMap = jsonEncode(element);
-
-            print("MESSAGE DATA SOZDALAS'");
             Items tempItems = new Items(sender: new Sender(userName: widget.interlocutor), content: messageMap);
-            print("ZAXUYARIL");
             setState(() {
-              
               chattingPage.add(tempItems);
-              _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+              _scrollController.jumpTo(_scrollController.position.minScrollExtent);
             });
-            
-            // Further actions with tempItems if needed
-            print("New message added: $tempItems");
-          
         }
       } else {
-        print("Invalid message data format: $messageData");
+        debugPrint("Invalid message data format: $messageData");
       }
     });
   } catch (e) {
-    print('Connection error: $e');
+    debugPrint('Connection error: $e');
   }
 }
 
   void sendMessage(String message) async {
     if (hubConnection?.state == HubConnectionState.Connected) {
-      print("Sent message");
+      debugPrint("Sent message");
       await hubConnection!.invoke('Send',
           args: [widget.chatid, message]);
       setState(() {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        _scrollController.jumpTo(_scrollController.position.minScrollExtent);
       });
     } else {
-      print('Not connected to SignalR');
+      debugPrint('Not connected to SignalR');
     }
   }
   
@@ -174,8 +160,9 @@ class _ChattingPageState extends State<ChattingPage> {
                   controller: _scrollController,
                   itemCount: chattingPage.length,
                   shrinkWrap: true,
+                  reverse: true,
                   padding: EdgeInsets.only(top: 10, bottom: 70),
-                  physics: ScrollPhysics(),
+                  physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Container(
                       padding: EdgeInsets.only(

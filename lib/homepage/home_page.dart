@@ -4,6 +4,7 @@ import 'package:zoomerm_client/blocs/login_bloc.dart/service.dart';
 import 'package:zoomerm_client/global/global.dart';
 import 'package:zoomerm_client/homepage/chat_page.dart';
 import 'package:zoomerm_client/homepage/forum_page.dart';
+import 'package:zoomerm_client/homepage/search_add_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -87,6 +88,15 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        hoverColor: Colors.green,
+        backgroundColor: Colors.red,
+        foregroundColor: Colors.white,
+        onPressed: () {
+            showDialog(context: context, builder: (context) => SearchAndAddDialog());
+        },
       ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
